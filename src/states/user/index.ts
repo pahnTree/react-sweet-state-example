@@ -3,11 +3,11 @@ import { createStore, createHook, createSubscriber, createContainer, createActio
 import * as actions from './actions'
 import * as selectors from './selectors'
 
-import type { State } from './types'
+import type { UserState } from '../../types/User'
 
 type Actions = typeof actions
 
-const initialState: State = {
+const initialState: UserState = {
   user: {
     username: '',
     email: ''
@@ -16,7 +16,7 @@ const initialState: State = {
   isLoading: false
 }
 
-const Store = createStore<State, Actions>({
+const Store = createStore<UserState, Actions>({
   initialState,
   actions,
   name: 'user'

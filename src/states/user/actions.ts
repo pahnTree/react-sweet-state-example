@@ -1,44 +1,53 @@
 import { Action } from "react-sweet-state";
-import { State, User } from "./types";
+import * as actions from "../actions";
 
-const USER: User = {
-  username: 'ipsum',
-  email: 'lorem@email.com'
-}
-
-export const setIsLoading =
-  (isLoading: boolean): Action<State> =>
-  ({ setState }) => setState({ isLoading });
+import { getLogout, getUser } from "../../clients/user";
+import { User, UserState } from "../../types/User";
 
 export const setIsAuthenticated =
-  (isAuthenticated: boolean): Action<State> =>
+  (isAuthenticated: boolean): Action<UserState> =>
   ({ setState }) => setState({ isAuthenticated })
 
 export const setUser =
-  (user?: User): Action<State> =>
-  ({ setState }) => setState({ user });
-
-
-export const loadUser =
-  (): Action<State> =>
-  async({ getState, dispatch }) => {
-    if (getState().isLoading) return;
-    dispatch(setIsLoading(true));
-
-    await new Promise((r) => setTimeout(r, 2000));
-    dispatch(setUser(USER));
-    dispatch(setIsLoading(false));
-    dispatch(setIsAuthenticated(true))
+  (user?: User): Action<UserState> =>
+  ({ setState }) => {
+    if (user?.username) {
+      setState({ user, isAuthenticated: true });
+    } else {
+      setState({ user, isAuthenticated: false})
+    }
   }
 
-  export const logoutUser =
-    (): Action<State> =>
-    async({ getState, dispatch }) => {
-      if (getState().isLoading) return;
-      dispatch(setIsLoading(true));
+export const loadUser =
+  (): Action<UserState> =>
+  async({ getState, dispatch }) => {
+    if (getState().isLoading) return;
+    dispatch(actions.resetState())
+    dispatch(actions.setIsLoading(true));
 
-      await new Promise((r) => setTimeout(r, 1000));
-      dispatch(setUser(undefined));
-      dispatch(setIsAuthenticated(false))
-      dispatch(setIsLoading(false))
+    // wrapper(getUser, dispatch, setUser)
+
+    try {
+      const user = await getUser();
+      dispatch(setUser(user));
+    } catch(e) {
+      dispatch(actions.setError(e as string))
     }
+    dispatch(actions.setIsLoading(false));
+  }
+
+export const logoutUser =
+  (): Action<UserState> =>
+  async({ getState, dispatch }) => {
+    if (getState().isLoading) return;
+    dispatch(actions.resetState())
+    dispatch(actions.setIsLoading(true));
+
+    try {
+      await getLogout();
+      dispatch(setUser(undefined));
+    } catch (e) {
+      dispatch(actions.setError(e as string))
+    }
+    dispatch(actions.setIsLoading(false))
+  }

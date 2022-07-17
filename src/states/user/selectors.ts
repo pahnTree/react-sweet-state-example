@@ -1,3 +1,3 @@
-import { State } from "./types";
+import { UserState } from "../../types/User";
 
-export const getUser = (state: State) => state.user;
+export const getUser = (state: UserState) => state.user;

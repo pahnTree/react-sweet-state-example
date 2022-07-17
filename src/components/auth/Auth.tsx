@@ -4,7 +4,7 @@ import Logout from "./Logout"
 import User from "./User"
 
 const Auth = () => {
-  const { isAuthenticated } = useUserState();
+  const { isAuthenticated, isError, error } = useUserState();
 
   if (isAuthenticated) {
     return (
@@ -16,7 +16,10 @@ const Auth = () => {
   }
 
   return (
-    <Login />
+    <div>
+      {isError ? <div>{error}. Try again</div> : ''}
+      <Login />
+    </div>
   )
 }
 

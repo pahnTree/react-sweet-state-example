@@ -1,10 +1,12 @@
 import IndexPage from "../pages/IndexPage"
+import { RelayEnvironmentProvider } from 'react-relay';
+import environment from "../relay-env";
 
 const App = () => {
   return (
-    <div>
+    <RelayEnvironmentProvider environment={environment}>
       <IndexPage />
-    </div>
+    </RelayEnvironmentProvider>
   )
 }
 

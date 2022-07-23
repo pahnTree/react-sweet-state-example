@@ -1,4 +1,4 @@
-import { useUserState } from "../../states/user";
+import { useUserState } from "../../states/UserState";
 import Login from "./Login"
 import Logout from "./Logout"
 import User from "./User"

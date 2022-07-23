@@ -1,4 +1,4 @@
-import { useUser } from "../../states/user";
+import { useUser } from "../../states/UserState";
 
 const Logout = () => {
   const [{ isLoading }, actions] = useUser()

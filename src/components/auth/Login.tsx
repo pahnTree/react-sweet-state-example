@@ -1,13 +1,13 @@
-import { useUser } from "../../states/user";
+import { useUser } from "../../states/UserState";
 
-const Login = () => {
+function Login() {
   const [{ isLoading }, actions] = useUser();
 
   return (
     <button onClick={() => actions.loadUser()} disabled={isLoading}>
-      {isLoading ? 'Logging in': 'Login'}
+      {isLoading ? "Logging in" : "Login"}
     </button>
-  )
+  );
 }
 
 export default Login;

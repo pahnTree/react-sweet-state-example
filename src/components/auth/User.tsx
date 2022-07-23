@@ -1,4 +1,4 @@
-import { useUserState } from "../../states/user"
+import { useUserState } from "../../states/UserState"
 
 const User = () => {
   const { user, isAuthenticated, isLoading } = useUserState();

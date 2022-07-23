@@ -2,10 +2,12 @@ import {
   Environment,
   Network,
   RecordSource,
-  Store
+  Store,
+  Variables,
+  RequestParameters
 } from 'relay-runtime';
 
-const fetchFunction = async (operation, variables) => {
+const fetchFunction = async (operation: RequestParameters, variables: Variables) => {
   try {
     const response = await fetch('/graphql', {
       method: 'POST',
